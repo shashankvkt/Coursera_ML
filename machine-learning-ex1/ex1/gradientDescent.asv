@@ -1,0 +1,33 @@
+function [theta, J_history] = gradientDescent(X, y, theta, alpha, num_iters)
+%GRADIENTDESCENT Performs gradient descent to learn theta
+%   theta = GRADIENTDESCENT(X, y, theta, alpha, num_iters) updates theta by 
+%   taking num_iters gradient steps with learning rate alpha
+
+% Initialize some useful values
+data = load('ex1data1.txt');
+X = data(:,1);
+y = data(:,2);
+m = length(y);
+plot(data(:,1),data(:,2),'rx','MarkerSize',10);
+X = [ones(m,1),X(:,1)];
+theta = zeros(2,1);
+num_iters=1500;
+alpha=0.01;
+m = length(y);
+
+for iter = 1:num_iters
+    prediction = X*theta;
+    % Save the cost J in every iteration    
+    
+    theta(1)=theta(1)-(alpha*(1/m)*(sum((prediction-y).*X(:,1))));
+    theta(2)=theta(2)-(alpha*(1/m)*(sum((prediction-y).*X(:,2))));  
+    
+    J_history(iter) = computeCost(X, y, theta);
+end
+fprintf('Theta found by gradient descent: ');
+fprintf('%f %f \n', theta(1), theta(2));
+hold on;
+plot(X(:,2),prediction);
+legend('data set','linear regression');
+
+end
